@@ -1,6 +1,4 @@
-from pathlib import Path
-
-readme = """# 🚀 Aula 03 — Streams e Buffers
+# 🚀 Aula 03 — Streams e Buffers
 
 <div align="center">
 
