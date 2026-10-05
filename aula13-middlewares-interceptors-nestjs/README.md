@@ -1,25 +1,112 @@
-# 🚀 Aula 13 — Middlewares e Controle de Acesso com NestJS
+# 🚀 Aula 13 — Middlewares e Interceptors com NestJS
 
-Nesta aula foi dada continuidade ao desenvolvimento da API utilizando **NestJS**, com a implementação de **Middlewares**, registro de requisições e controle de acesso baseado em função do usuário.
+> Implementação de **middlewares** para logging e controle de acesso baseado em permissões.
 
-## 📚 Conteúdos desenvolvidos
+---
 
-- 🛡️ Criação do `LoggerMiddleware` utilizando `NestMiddleware`.
-- 📝 Implementação de logs contendo:
-  - Método HTTP utilizado;
-  - Rota acessada.
-- 🔐 Implementação de controle de acesso através do header `x-user-role`.
-- 👤 Validação da função do usuário para acesso a rotas administrativas.
-- 🚫 Retorno de erro `402` quando o usuário não possui a função `supervisor`.
-- 🌐 Criação da rota pública `GET /`, permitindo acesso sem autenticação administrativa.
-- ⚙️ Criação da rota `GET /admin` para acesso ao painel administrativo.
-- 🔧 Configuração do `MiddlewareConsumer` no `AppModule`.
-- 🔄 Aplicação do `LoggerMiddleware` em todas as rotas utilizando `forRoutes('*')`.
-- 📅 Inclusão de data/hora nas respostas das rotas e nos registros de acesso.
-- 🧩 Organização da aplicação utilizando `AppController`, `AppService` e `LoggerMiddleware`.
+## 📚 Sobre o projeto
 
-## 💻 Resultado
+Nesta aula foi desenvolvido um middleware responsável por interceptar as requisições da aplicação e realizar:
 
-A aplicação passou a contar com um middleware responsável por registrar as requisições e também com uma verificação de função para proteger a rota administrativa, permitindo o acesso somente quando o usuário possui a função:
+- 📝 Registro das requisições HTTP
+- 🔐 Controle de acesso por perfil
+- 🚫 Bloqueio de usuários sem permissão
+- 📅 Registro da data e hora das respostas
+- 🛡️ Proteção de rotas administrativas
 
-`supervisor`
+---
+
+## 🧩 Funcionalidades
+
+### 📝 Logger Middleware
+
+O middleware registra no console o método HTTP e a rota acessada.
+
+```text
+[LOG] Método: GET | Rota: /admin
+
+🔐 Controle de acesso
+As rotas protegidas verificam uma chave enviada através dos headers da requisição.
+
+Rota	Permissão necessária	Header
+/admin	administrador	api-key-admin
+/secret	supervisor	api-key-secret
+
+🛡️ Rotas protegidas
+👨‍💼 /admin
+Acesso permitido somente para usuários com a role:
+
+administrador
+
+Exemplo:
+
+GET /admin
+api-key-admin: administrador
+
+Resposta:
+
+{
+  "mensagem": "Bem-vindo ao painel Administrativo!",
+  "data": "2026-10-05T00:00:00.000Z"
+}
+
+🔒 /secret
+Acesso permitido somente para usuários com a role:
+
+supervisor
+
+Exemplo:
+
+GET /secret
+api-key-secret: supervisor
+
+Resposta:
+
+{
+  "mensagem": "Bem-vindo a rota secreta!",
+  "data": "2026-10-05T00:00:00.000Z"
+}
+
+🚫 Acesso negado
+Quando o usuário não possui a permissão necessária, a API retorna:
+
+403 Forbidden
+
+Exemplo:
+
+{
+  "statusCode": 403,
+  "mensagem": "Acesso Negado: Privilégio de Administrador Necessário.",
+  "data": "2026-10-05T00:00:00.000Z"
+}
+
+Para a rota secreta:
+
+{
+  "statusCode": 403,
+  "mensagem": "Acesso negado: só pessoas autorizadas!",
+  "data": "2026-10-05T00:00:00.000Z"
+}
+
+🛠️ Tecnologias utilizadas
+<div align="center">
+
+
+
+</div>
+📁 Estrutura
+src/
+├── logger/
+│   └── logger.middleware.ts
+│
+├── app.controller.ts
+├── app.service.ts
+└── main.ts
+
+🎯 Objetivo da aula
+O objetivo foi compreender na prática como utilizar Middlewares no NestJS para interceptar requisições antes que elas cheguem aos controllers, permitindo implementar funcionalidades como:
+
+🔎 Logging + 🔐 Autorização + 🚫 Controle de acesso
+
+👨‍💻 Desenvolvimento
+Projeto desenvolvido durante os estudos de NestJS, explorando conceitos de arquitetura, middlewares e proteção de rotas.

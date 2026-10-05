@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service.js';
 
-@Controller('')
+@Controller()
 export class AppController {
   @Get()
   getPublic(){
    return{
-    message: 'Rota publica acessada com sucesso!',
+    mensagem: 'Rota publica acessada com sucesso!',
     data: new Date(),
    }
   }
@@ -14,8 +14,16 @@ export class AppController {
   @Get('admin')
   getAdmin(){
    return{
-    message: 'Bem-vindo ao painel Administrativo!',
+    mensagem: 'Bem-vindo ao painel Administrativo!',
     data: new Date(),
    }
+  }
+  
+  @Get('secret')
+  getSecret(){
+    return {
+      mensagem: 'Bem-vindo a rota secreta!',
+      data: new Date(),
+    }
   }
 }
