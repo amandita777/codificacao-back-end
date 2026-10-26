@@ -4,7 +4,7 @@ import { AlunosModule } from './alunos/alunos.module.js';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/escola_db'),
+    MongooseModule.forRoot('mongodb://localhost:27017/escola_db'), AlunosModule
 ],
   controllers: [],
   providers: [],
