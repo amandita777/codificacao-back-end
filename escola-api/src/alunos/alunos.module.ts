@@ -1,0 +1,17 @@
+import { ImATeapotException, Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { AlunosService } from "./alunos.service.js";
+import { AlunosController } from "./alunos.controller.js";
+import { Aluno } from "./schemas/aluno.schema.js";
+import { AlunoSchema } from "./schemas/aluno.schema.js";
+
+@Module({
+    imports: [MongooseModule.forFeature([{
+        name: Aluno.name, schema:AlunoSchema
+    }
+    ])],
+    controllers: [ AlunosController ],
+    providers: [ AlunosService ],
+})
+
+export class AlunosModule{}
