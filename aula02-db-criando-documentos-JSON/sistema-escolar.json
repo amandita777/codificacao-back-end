@@ -1,0 +1,41 @@
+
+ {
+ "alunos": [
+    {"nomeCompleto": "Andrei Santos", "matricula": "0010", "dataNascimento": "2008-04-22"}
+  ],
+
+  "professores": [
+    {"nomeCompleto": "Fabiana Almeida", "email": "fabi@email.com", "especialidade": "Português"}
+  ],
+
+  "turmas": [
+    {
+      "nome": "3Ano-B",
+      "anoLetivo": 2026,
+      "professorId": "P001",
+      "alunoMatricula": "0010"
+    }
+  ],
+
+  "disciplinas": [
+    {"nome": "Português","cargaHoraria": 60,"professorId": "P001"}
+  ],
+
+  "notas": [
+    {
+      "alunoMatricula": "0010",
+      "disciplinaId": "D001",
+      "bimestre":"3 bimestre",
+      "anoLetivo": 2026,
+      "nota": 8.5
+    }
+  ],
+  
+  "frequencias": [
+    {
+      "alunoMatricula": "0010",
+      "dataAula": "2026-10-21",
+      "status": "presente"
+    }
+  ]
+}
