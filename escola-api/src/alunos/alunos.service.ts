@@ -43,7 +43,7 @@ export class AlunosService {
     ){
 
         const skip = (page - 1) * limit;
-        const filtro: any = {};
+        const filtro: any = {ativo:true};
 
         if(nome){
             filtro.nome = {
@@ -84,7 +84,9 @@ export class AlunosService {
    // } //!GET
 
     async findOne(id:string):Promise<Aluno>{
-        const aluno = await this.alunoModel.findById(id).exec();
+        //const aluno = await this.alunoModel.findById(id).exec();
+        const aluno = await this.alunoModel.findOne({_id: id, ativo:true})
+
         if(!aluno){
             throw new NotFoundException(`Aluno com id ${id} não encontrado.`)
         }
@@ -100,11 +102,20 @@ export class AlunosService {
         return alunoAtualizado;
     } //!PATCH
     async remove(id: string): Promise<Aluno>{
-        const alunoRemovido = await this.alunoModel.findByIdAndDelete(id).exec();
+        const alunoRemovido = await this.alunoModel.findByIdAndUpdate(
+            id, { ativo:false }, { new:true }).exec();
         if(!alunoRemovido){
             throw new NotFoundException(`Aluno com id ${id} não encontrado.`)
         }
         return alunoRemovido;
     } //!DELETE
+    async restore(id:string): Promise <Aluno>{
+        const alunoRestaurado = await this.alunoModel.findByIdAndUpdate(
+            id, {ativo:true}, {new:true}).exec();
+            if(!alunoRestaurado){
+                throw new NotFoundException(`aluno com ID ${id} não encontrado`)
+            }
+            return alunoRestaurado;
+    }
     //!CURD
 }
