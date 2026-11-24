@@ -11,10 +11,24 @@ import { UpdateAlunoDto } from "./dto/update-aluno.dto.js";
 import { Aluno } from "./schemas/aluno.schema.js";
 import { AlunoDocument } from "./schemas/aluno.schema.js";
 import { MongoServerError } from 'mongodb'
+import { ConfigService } from "@nestjs/config";
+import { variaveisAmbiente } from "../config/env.config.js";
+import { Inject } from "@nestjs/common";
+import type { ConfigType } from "@nestjs/config";
+import databaseConfig from "../config/database.config.js";
 
 @Injectable()
 export class AlunosService {
-    constructor(@InjectModel(Aluno.name) private alunoModel: Model<AlunoDocument>){}
+    constructor(@InjectModel(Aluno.name) private alunoModel: Model<AlunoDocument>,
+    private readonly configService: ConfigService<variaveisAmbiente, true>,
+    @Inject(databaseConfig.KEY) private dbconfig: ConfigType<typeof databaseConfig>){}
+
+    configVariaveis(){
+        const nodeEnv = this.configService.get('NODE_ENV', {infer: true});
+        const port = this.configService.get('PORT', {infer: true});
+        const mongoUri = this.configService.get('MONGO_URI', {infer: true});
+        const jwtSecret = this.configService.get('JWT_SECRET', {infer: true});
+    }
 
     async create(createAlunoDto: CreateAlunoDto):Promise<Aluno>{
 
@@ -36,10 +50,10 @@ export class AlunosService {
     async findAllPageFilter(
         page: number,
         limit: number,
-        nome?:string,
-        curso?:string,
-        orderBy?:string,
-        orderDirection?:'asc' | 'desc',
+        nome?: string,
+        curso?: string,
+        orderBy?: string,
+        orderDirection?: 'asc' | 'desc',
     ){
 
         const skip = (page - 1) * limit;
